@@ -1,997 +1,772 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel-Ease | Seamless Adventures Await</title>
+    <title>TravelEase | Modern Travel Experiences</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        dark: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            /* Apple-inspired Color Palette */
-            --primary-white: #ffffff;
-            --primary-black: #1d1d1f;
-            --secondary-gray: #86868b;
-            --light-gray: #f5f5f7;
-            --apple-blue: #007aff;
-            --apple-blue-hover: #0056cc;
-            --glass-bg: rgba(255, 255, 255, 0.72);
-            --glass-bg-dark: rgba(0, 0, 0, 0.72);
-            --glass-border: rgba(255, 255, 255, 0.18);
-            --blur: blur(20px);
-            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --shadow-large: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: var(--primary-black);
-            overflow-x: hidden;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        body.modal-open {
-            overflow: hidden;
-        }
-
-        /* Apple-style Glass Morphism */
-        .glass-morphism {
-            background: var(--glass-bg);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: var(--shadow-medium);
-        }
-
-        .glass-morphism-dark {
-            background: var(--glass-bg-dark);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: var(--shadow-large);
-        }
-
-        /* Navigation */
-        .nav-glass {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .nav-scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: var(--shadow-light);
-        }
-
-        /* Hero Section */
-        .hero-section {
-            height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            text-align: center;
-            color: white;
-            z-index: 10;
-            max-width: 800px;
-            padding: 0 2rem;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-bottom: 3rem;
-            opacity: 0.9;
-        }
-
-        /* Apple-style Buttons */
-        .btn-primary {
-            background: var(--apple-blue);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: var(--shadow-light);
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            background: var(--apple-blue-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .btn-primary:disabled {
-            background-color: #555;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        /* Cards */
-        .destination-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: var(--shadow-light);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            cursor: pointer;
-        }
-
-        .destination-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: var(--shadow-large);
-        }
-
-        .destination-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .destination-card:hover img {
-            transform: scale(1.05);
-        }
-
-        /* Form Inputs */
-        .form-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 16px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--apple-blue);
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .form-input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        select.form-input {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
-            padding-right: 2.5rem;
-        }
-
-        input[type="date"].form-input::-webkit-calendar-picker-indicator {
-             filter: invert(1);
-        }
-
-        /* Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .scale-in {
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .scale-in.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Floating Animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        /* Gradient Text */
-        .gradient-text {
-            background: linear-gradient(135deg, var(--apple-blue) 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Section Spacing */
-        .section-padding {
-            padding: 6rem 0;
-        }
-
-        /* Dropdown Menu */
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border-radius: 16px;
-            box-shadow: var(--shadow-large);
-            min-width: 220px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            z-index: 100;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .dropdown:hover .dropdown-content {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-content a {
-            display: block;
-            padding: 12px 20px;
-            color: var(--primary-black);
-            text-decoration: none;
-            transition: all 0.2s ease;
-            border-radius: 12px;
-            margin: 4px 8px;
-        }
-
-        .dropdown-content a:hover {
-            background: var(--light-gray);
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 3rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.25rem;
-            }
-            
-            .section-padding {
-                padding: 4rem 0;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        /* Status Messages */
-        .success-message {
-            background: rgba(52, 199, 89, 0.9);
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .animate-delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .animate-delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .animate-delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .glass-card-dark {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0ea5e9, #0369a1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .loading-icon {
+            width: 60px;
+            height: 60px;
+            animation: spin 1.5s linear infinite;
             color: white;
-            padding: 16px 20px;
-            border-radius: 12px;
-            margin-top: 16px;
-            backdrop-filter: var(--blur);
         }
-
-        .error-message {
-            background: rgba(255, 59, 48, 0.9);
-            color: white;
-            padding: 16px 20px;
-            border-radius: 12px;
-            margin-top: 16px;
-            backdrop-filter: var(--blur);
-        }
-
-        /* Itinerary Modal Styles */
-        #itinerary-modal {
+        
+        .dropdown-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 40;
+            opacity: 0;
+            pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        #itinerary-modal-content {
-            transition: transform 0.3s ease;
+        
+        .dropdown-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .globe-container {
+            width: 100%;
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        
+        .globe-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0ea5e9, #0369a1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .country-tooltip {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        
+        .theme-toggle {
+            width: 44px;
+            height: 24px;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .theme-toggle-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        
+        .dark .theme-toggle-circle {
+            transform: translateX(20px);
+        }
+        
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        @media (max-width: 768px) {
+            .parallax-bg {
+                background-attachment: scroll;
+            }
+            
+            .globe-container {
+                height: 400px;
+            }
         }
     </style>
 </head>
-<body>
+<body class="font-sans bg-gray-50 text-gray-900 dark:bg-dark-900 dark:text-gray-100 transition-colors duration-300">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="flex flex-col items-center">
+            <i class="fas fa-plane loading-icon"></i>
+            <p class="mt-4 text-white font-medium">Loading TravelEase...</p>
+        </div>
+    </div>
+
+    <!-- Dropdown Backdrop -->
+    <div class="dropdown-backdrop" id="dropdownBackdrop"></div>
+
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 w-full z-50 nav-glass">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="text-2xl font-bold gradient-text">Travel-Ease</div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="text-gray-800 hover:text-blue-600 transition duration-300 font-medium">Home</a>
-                    <div class="dropdown">
-                        <a href="#destinations" class="text-gray-800 hover:text-blue-600 transition duration-300 font-medium">Destinations</a>
-                        <div class="dropdown-content" id="nav-dropdown">
-                            <!-- Populated dynamically -->
+    <nav class="glass dark:glass-dark fixed top-0 left-0 right-0 z-50 mx-auto max-w-7xl px-6 py-3 rounded-full mt-4 shadow-lg">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="#" class="text-2xl font-bold text-primary-600 dark:text-primary-400">TravelEase</a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <div class="relative group" id="flightsMenu">
+                    <button class="flex items-center space-x-1 text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        <span>Flights</span>
+                        <i class="fas fa-chevron-down text-xs mt-0.5"></i>
+                    </button>
+                    
+                    <div class="absolute left-0 mt-2 w-64 rounded-xl shadow-lg glass dark:glass-dark opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform group-hover:translate-y-0 translate-y-1 z-50 overflow-hidden">
+                        <div class="py-2">
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-primary-50 dark:hover:bg-dark-800 transition-colors" onclick="fillFlightRoute('Delhi', 'Mumbai')">
+                                <div class="flex justify-between">
+                                    <span>Delhi → Mumbai</span>
+                                    <span class="text-primary-600 dark:text-primary-400">₹4,500</span>
+                                </div>
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-primary-50 dark:hover:bg-dark-800 transition-colors" onclick="fillFlightRoute('New York', 'London')">
+                                <div class="flex justify-between">
+                                    <span>NYC → London</span>
+                                    <span class="text-primary-600 dark:text-primary-400">$450</span>
+                                </div>
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-primary-50 dark:hover:bg-dark-800 transition-colors" onclick="fillFlightRoute('Tokyo', 'Sydney')">
+                                <div class="flex justify-between">
+                                    <span>Tokyo → Sydney</span>
+                                    <span class="text-primary-600 dark:text-primary-400">¥65,000</span>
+                                </div>
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-primary-50 dark:hover:bg-dark-800 transition-colors" onclick="fillFlightRoute('Paris', 'Rome')">
+                                <div class="flex justify-between">
+                                    <span>Paris → Rome</span>
+                                    <span class="text-primary-600 dark:text-primary-400">€120</span>
+                                </div>
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-primary-50 dark:hover:bg-dark-800 transition-colors" onclick="fillFlightRoute('Dubai', 'Singapore')">
+                                <div class="flex justify-between">
+                                    <span>Dubai → Singapore</span>
+                                    <span class="text-primary-600 dark:text-primary-400">$380</span>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                    <a href="#experiences" class="text-gray-800 hover:text-blue-600 transition duration-300 font-medium">Experiences</a>
-                    <a href="#booking" class="text-gray-800 hover:text-blue-600 transition duration-300 font-medium">Book</a>
                 </div>
-
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
+                
+                <a href="#" class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Hotels</a>
+                <a href="#" class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Packages</a>
+                <a href="#" class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Deals</a>
+                <a href="#" class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
             </div>
-
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
-                <div class="flex flex-col space-y-4">
-                    <a href="#home" class="text-gray-800 hover:text-blue-600 transition font-medium">Home</a>
-                    <a href="#destinations" class="text-gray-800 hover:text-blue-600 transition font-medium">Destinations</a>
-                    <a href="#experiences" class="text-gray-800 hover:text-blue-600 transition font-medium">Experiences</a>
-                    <a href="#booking" class="text-gray-800 hover:text-blue-600 transition font-medium">Book</a>
-                </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="themeToggle" class="theme-toggle bg-gray-200 dark:bg-dark-800">
+                    <div class="theme-toggle-circle bg-white dark:bg-primary-400 shadow-md"></div>
+                </button>
+                
+                <button class="md:hidden text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                
+                <button class="hidden md:block px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-full text-sm font-medium transition-colors">
+                    Sign In
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-section">
-        <div class="hero-content">
-            <h1 class="hero-title fade-in">Where to next?</h1>
-            <p class="hero-subtitle fade-in">Seamless adventures, crafted just for you.</p>
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&q=80')"></div>
+        <div class="absolute inset-0 bg-black/30 dark:bg-black/50"></div>
+        
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto animate-fade-in">
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">Discover Your Next Adventure</h1>
+            <p class="text-xl text-white/90 mb-8">TravelEase makes exploring the world effortless. Find flights, hotels, and experiences tailored just for you.</p>
             
-            <!-- Search Bar -->
-            <div class="glass-morphism p-8 max-w-2xl mx-auto fade-in">
-                <form id="hero-search-form" class="flex flex-col md:flex-row gap-4">
-                    <input 
-                        type="text" 
-                        id="hero-search-input" 
-                        placeholder="Search destinations..." 
-                        class="form-input flex-1"
-                    >
-                    <button type="submit" class="btn-primary whitespace-nowrap flex justify-center items-center w-full md:w-auto">
-                        <span id="search-btn-text">Explore</span>
-                        <div id="search-loading" class="loading hidden"></div>
+            <div class="glass dark:glass-dark p-6 rounded-2xl max-w-3xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1 relative">
+                        <label for="from" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">From</label>
+                        <div class="relative">
+                            <input type="text" id="from" placeholder="City or Airport" class="w-full px-4 py-3 rounded-xl bg-white/80 dark:bg-dark-800/80 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all">
+                            <i class="fas fa-plane-departure absolute right-3 top-3.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 relative">
+                        <label for="to" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">To</label>
+                        <div class="relative">
+                            <input type="text" id="to" placeholder="City or Airport" class="w-full px-4 py-3 rounded-xl bg-white/80 dark:bg-dark-800/80 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all">
+                            <i class="fas fa-plane-arrival absolute right-3 top-3.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <button class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-medium transition-colors flex items-center justify-center">
+                        <i class="fas fa-search mr-2"></i>
+                        Search Flights
                     </button>
-                </form>
+                </div>
             </div>
         </div>
         
-        <!-- Floating Elements -->
-        <div class="absolute top-20 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full floating" style="animation-delay: 0s;"></div>
-        <div class="absolute top-1/2 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full floating" style="animation-delay: 2s;"></div>
-        <div class="absolute bottom-20 left-1/4 w-12 h-12 bg-white bg-opacity-10 rounded-full floating" style="animation-delay: 4s;"></div>
-    </section>
-
-    <!-- Featured Destinations -->
-    <section id="destinations" class="section-padding bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-6 fade-in">Featured Destinations</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto fade-in">Discover breathtaking locations around the world, carefully curated for unforgettable experiences.</p>
-            </div>
-
-            <div id="destinations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Populated dynamically -->
-            </div>
+        <div class="absolute bottom-8 left-0 right-0 flex justify-center z-10 animate-fade-in animate-delay-1">
+            <a href="#explore" class="text-white animate-bounce">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
         </div>
     </section>
 
-    <!-- Experiences Section -->
-    <section id="experiences" class="section-padding" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-6 fade-in gradient-text">Premium Experiences</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto fade-in">Elevate your journey with exclusive experiences designed for the discerning traveler.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="glass-morphism p-8 text-center scale-in">
-                    <div class="w-16 h-16 bg-blue-500 rounded-full mx-auto mb-6 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-4">Luxury Accommodations</h3>
-                    <p class="text-gray-600">Stay in hand-picked luxury hotels and resorts that define comfort and elegance.</p>
-                </div>
-
-                <div class="glass-morphism p-8 text-center scale-in" style="animation-delay: 0.2s;">
-                    <div class="w-16 h-16 bg-purple-500 rounded-full mx-auto mb-6 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-4">Expert Guides</h3>
-                    <p class="text-gray-600">Discover hidden gems with local experts who bring destinations to life.</p>
-                </div>
-
-                <div class="glass-morphism p-8 text-center scale-in" style="animation-delay: 0.4s;">
-                    <div class="w-16 h-16 bg-green-500 rounded-full mx-auto mb-6 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-4">24/7 Support</h3>
-                    <p class="text-gray-600">Round-the-clock assistance ensuring your journey is seamless from start to finish.</p>
-                </div>
-            </div>
+    <!-- Explore Section -->
+    <section id="explore" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16 animate-fade-in">
+            <h2 class="text-4xl font-bold mb-4">Explore the World</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Hover over countries to discover popular destinations and click to explore travel options.</p>
         </div>
-    </section>
-
-    <!-- Booking Section -->
-    <section id="booking" class="section-padding relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900"></div>
-        <div class="absolute inset-0 bg-black bg-opacity-30"></div>
         
-        <div class="relative z-10 max-w-4xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-5xl font-bold text-white mb-6 fade-in">Plan Your Adventure</h2>
-                <p class="text-xl text-white opacity-90 fade-in">Ready to embark on your next journey? Fill out the details below.</p>
+        <div class="globe-container glass dark:glass-dark animate-fade-in animate-delay-1">
+            <div class="globe-placeholder">
+                <div class="text-center">
+                    <i class="fas fa-globe-americas text-5xl mb-4"></i>
+                    <p>Interactive 3D Globe</p>
+                    <p class="text-sm opacity-80 mt-2">(Would show Google Earth-like interactive globe in production)</p>
+                </div>
             </div>
-
-            <form id="booking-form" class="glass-morphism-dark p-8 space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="full-name" class="block text-white mb-2 font-medium">Full Name</label>
-                        <input type="text" id="full-name" class="form-input w-full" placeholder="Enter your full name" required>
-                    </div>
-                    <div>
-                        <label for="email" class="block text-white mb-2 font-medium">Email Address</label>
-                        <input type="email" id="email" class="form-input w-full" placeholder="Enter your email" required>
-                    </div>
+            <div class="country-tooltip" id="countryTooltip">Country Name</div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+            <div class="glass-card dark:glass-card-dark p-6 rounded-xl hover-lift animate-fade-in animate-delay-1">
+                <div class="h-40 mb-4 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Paris" class="w-full h-full object-cover">
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="destination-select" class="block text-white mb-2 font-medium">Destination</label>
-                        <select id="destination-select" class="form-input w-full" required>
-                            <option value="" disabled selected>Choose your destination</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="travel-date" class="block text-white mb-2 font-medium">Travel Date</label>
-                        <input type="date" id="travel-date" class="form-input w-full" required>
-                    </div>
+                <h3 class="text-xl font-semibold mb-2">Paris, France</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">The city of love and lights with iconic landmarks.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-primary-600 dark:text-primary-400 font-medium">From $599</span>
+                    <button class="text-sm px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-full transition-colors">Explore</button>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="travelers" class="block text-white mb-2 font-medium">Number of Travelers</label>
-                        <select id="travelers" class="form-input w-full" required>
-                            <option value="">Select travelers</option>
-                            <option value="1">1 Traveler</option>
-                            <option value="2">2 Travelers</option>
-                            <option value="3">3 Travelers</option>
-                            <option value="4">4 Travelers</option>
-                            <option value="5+">5+ Travelers</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="budget" class="block text-white mb-2 font-medium">Budget Range</label>
-                        <select id="budget" class="form-input w-full" required>
-                            <option value="">Select budget</option>
-                            <option value="budget">Budget ($500-$1,500)</option>
-                            <option value="mid">Mid-range ($1,500-$3,000)</option>
-                            <option value="luxury">Luxury ($3,000+)</option>
-                        </select>
-                    </div>
+            </div>
+            
+            <div class="glass-card dark:glass-card-dark p-6 rounded-xl hover-lift animate-fade-in animate-delay-2">
+                <div class="h-40 mb-4 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1538970272646-f61fabb3bfdf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Tokyo" class="w-full h-full object-cover">
                 </div>
+                <h3 class="text-xl font-semibold mb-2">Tokyo, Japan</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">A vibrant mix of traditional culture and modern technology.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-primary-600 dark:text-primary-400 font-medium">From $899</span>
+                    <button class="text-sm px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-full transition-colors">Explore</button>
+                </div>
+            </div>
+            
+            <div class="glass-card dark:glass-card-dark p-6 rounded-xl hover-lift animate-fade-in animate-delay-3">
+                <div class="h-40 mb-4 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="New York" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-xl font-semibold mb-2">New York, USA</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">The city that never sleeps with endless possibilities.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-primary-600 dark:text-primary-400 font-medium">From $399</span>
+                    <button class="text-sm px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-full transition-colors">Explore</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div>
-                    <label for="special-requests" class="block text-white mb-2 font-medium">Special Requests</label>
-                    <textarea id="special-requests" rows="4" class="form-input w-full" placeholder="e.g., interested in history, prefer vegan food, need wheelchair access"></textarea>
+    <!-- Special Offers -->
+    <section class="py-20 bg-gray-100 dark:bg-dark-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-4xl font-bold mb-4">Special Offers</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Exclusive deals and discounts for our valued travelers.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card dark:glass-card-dark p-0 rounded-xl overflow-hidden hover-lift animate-fade-in">
+                    <div class="h-48 relative">
+                        <img src="https://images.unsplash.com/photo-1518391846015-55a9cc003b25?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Maldives" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold">30% OFF</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold">Maldives Escape</h3>
+                            <div class="flex items-center text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <span class="ml-1 text-gray-700 dark:text-gray-300">4.8</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">5 nights in a luxury overwater villa with breakfast.</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="line-through text-gray-500">$2,499</span>
+                                <span class="ml-2 text-primary-600 dark:text-primary-400 font-bold text-lg">$1,749</span>
+                            </div>
+                            <button class="text-sm px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-full transition-colors">Book Now</button>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="pt-2 space-y-4">
-                    <button type="button" id="itinerary-btn" class="btn-secondary w-full py-3 text-lg flex justify-center items-center" disabled>
-                        <span id="itinerary-btn-text">✨ Generate AI Itinerary</span>
-                         <div id="itinerary-loading" class="loading hidden"></div>
-                    </button>
-                    <button type="submit" class="btn-primary w-full py-4 text-lg flex justify-center items-center">
-                        <span id="booking-btn-text">Book Your Adventure</span>
-                        <div id="booking-loading" class="loading hidden"></div>
-                    </button>
+                <div class="glass-card dark:glass-card-dark p-0 rounded-xl overflow-hidden hover-lift animate-fade-in animate-delay-1">
+                    <div class="h-48 relative">
+                        <img src="https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1530&q=80" alt="Bali" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold">EARLY BIRD</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold">Bali Retreat</h3>
+                            <div class="flex items-center text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <span class="ml-1 text-gray-700 dark:text-gray-300">4.9</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">7 nights in a private villa with spa treatments included.</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-primary-600 dark:text-primary-400 font-bold text-lg">$1,299</span>
+                                <span class="ml-2 text-sm text-gray-500">per person</span>
+                            </div>
+                            <button class="text-sm px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-full transition-colors">Book Now</button>
+                        </div>
+                    </div>
                 </div>
+                
+                <div class="glass-card dark:glass-card-dark p-0 rounded-xl overflow-hidden hover-lift animate-fade-in animate-delay-2">
+                    <div class="h-48 relative">
+                        <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Swiss Alps" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold">LIMITED</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold">Swiss Alps Adventure</h3>
+                            <div class="flex items-center text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <span class="ml-1 text-gray-700 dark:text-gray-300">4.7</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">4 nights in a mountain chalet with ski passes included.</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="line-through text-gray-500">$1,899</span>
+                                <span class="ml-2 text-primary-600 dark:text-primary-400 font-bold text-lg">$1,499</span>
+                            </div>
+                            <button class="text-sm px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-full transition-colors">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div id="booking-message" class="hidden"></div>
-            </form>
+    <!-- Testimonials -->
+    <section class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16 animate-fade-in">
+            <h2 class="text-4xl font-bold mb-4">Traveler Stories</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">What our customers say about their experiences.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card dark:glass-card-dark p-8 rounded-xl hover-lift animate-fade-in">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J." class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Sarah J.</h4>
+                        <div class="flex text-yellow-400 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 italic">"TravelEase made booking our honeymoon to Bali effortless. The villa was even more beautiful than the photos, and the customer service was exceptional when we needed to make a small change to our itinerary."</p>
+            </div>
+            
+            <div class="glass-card dark:glass-card-dark p-8 rounded-xl hover-lift animate-fade-in animate-delay-1">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Michael T." class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Michael T.</h4>
+                        <div class="flex text-yellow-400 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 italic">"I've used many travel sites, but TravelEase stands out for their attention to detail. The flight alerts saved me $200 on my trip to Tokyo, and the hotel recommendations were spot on."</p>
+            </div>
+            
+            <div class="glass-card dark:glass-card-dark p-8 rounded-xl hover-lift animate-fade-in animate-delay-2">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                        <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Priya K." class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Priya K.</h4>
+                        <div class="flex text-yellow-400 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 italic">"The family package to Switzerland was perfect. Everything was taken care of, from airport transfers to ski lessons for the kids. We'll definitely use TravelEase for our next vacation!"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-20 bg-primary-600 text-white">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="glass dark:glass-dark p-8 rounded-2xl">
+                <h2 class="text-3xl font-bold mb-4 animate-fade-in">Stay Updated</h2>
+                <p class="mb-8 text-primary-100 max-w-2xl mx-auto animate-fade-in animate-delay-1">Subscribe to our newsletter for exclusive deals, travel tips, and destination inspiration.</p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto animate-fade-in animate-delay-2">
+                    <input type="email" placeholder="Your email address" class="flex-1 px-4 py-3 rounded-lg bg-white/20 border border-white/30 focus:ring-2 focus:ring-white focus:border-white outline-none placeholder-primary-200 transition-all">
+                    <button class="px-6 py-3 bg-white hover:bg-gray-100 text-primary-600 rounded-lg font-medium transition-colors">Subscribe</button>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-6">
+    <footer class="bg-gray-100 dark:bg-dark-900 text-gray-700 dark:text-gray-400">
+        <div class="max-w-7xl mx-auto px-6 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="text-2xl font-bold gradient-text mb-4">Travel-Ease</h3>
-                    <p class="text-gray-400">Creating seamless adventures for the modern traveler.</p>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Destinations</h4>
-                    <div class="space-y-2 text-gray-400">
-                        <div>Europe</div>
-                        <div>Asia</div>
-                        <div>Americas</div>
-                        <div>Africa</div>
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">TravelEase</h3>
+                    <p class="mb-4">Making travel simple, seamless, and memorable since 2015.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-600 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
                     </div>
                 </div>
+                
                 <div>
-                    <h4 class="font-semibold mb-4">Company</h4>
-                    <div class="space-y-2 text-gray-400">
-                        <div>About Us</div>
-                        <div>Careers</div>
-                        <div>Press</div>
-                        <div>Contact</div>
-                    </div>
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Press</a></li>
+                        <li><a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a></li>
+                    </ul>
                 </div>
+                
                 <div>
-                    <h4 class="font-semibold mb-4">Support</h4>
-                    <div class="space-y-2 text-gray-400">
-                        <div>Help Center</div>
-                        <div>Safety</div>
-                        <div>Privacy</div>
-                        <div>Terms</div>
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Safety</a></li>
+                        <li><a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Cancellation Policy</a></li>
+                        <li><a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Report Issue</a></li>
+                        <li><a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Privacy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Download App</h3>
+                    <div class="space-y-4">
+                        <button class="flex items-center w-full px-4 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg transition-colors">
+                            <i class="fab fa-apple text-2xl mr-3"></i>
+                            <div class="text-left">
+                                <div class="text-xs">Download on the</div>
+                                <div class="font-medium">App Store</div>
+                            </div>
+                        </button>
+                        <button class="flex items-center w-full px-4 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg transition-colors">
+                            <i class="fab fa-google-play text-xl mr-3"></i>
+                            <div class="text-left">
+                                <div class="text-xs">Get it on</div>
+                                <div class="font-medium">Google Play</div>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>© 2025 Travel-Ease. All rights reserved.</p>
+            
+            <div class="border-t border-gray-200 dark:border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p>© 2023 TravelEase. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Terms</a>
+                    <a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Cookies</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- AI Itinerary Modal -->
-    <div id="itinerary-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 opacity-0">
-        <div id="itinerary-modal-content" class="bg-white w-full max-w-2xl max-h-[90vh] rounded-2xl shadow-2xl p-6 md:p-8 flex flex-col transform scale-95">
-            <div class="flex justify-between items-center pb-4 border-b border-gray-200">
-                 <h2 class="text-2xl md:text-3xl font-bold gradient-text">Your AI-Powered Itinerary</h2>
-                <button id="itinerary-close-btn" class="text-gray-400 hover:text-gray-800 transition">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <div id="itinerary-output" class="overflow-y-auto mt-6 pr-4 -mr-4 text-gray-700">
-                <!-- AI generated content will be injected here -->
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Data for travel destinations
-        const destinations = [
-            { name: 'Tokyo, Japan', country: 'Japan', image: 'https://images.unsplash.com/photo-1540959733332-eab4deabf7f5?auto=format&fit=crop&w=800&q=80', description: 'Experience the perfect blend of ancient traditions and cutting-edge technology in Japan\'s vibrant capital.', price: 'From $2,800', duration: '7 days' },
-            { name: 'Santorini, Greece', country: 'Greece', image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69e0be7?auto=format&fit=crop&w=800&q=80', description: 'Discover the magical sunsets and whitewashed villages perched on volcanic cliffs.', price: 'From $2,200', duration: '5 days' },
-            { name: 'Paris, France', country: 'France', image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80', description: 'Fall in love with the City of Light, where romance meets world-class culture and cuisine.', price: 'From $2,500', duration: '6 days' },
-            { name: 'Bali, Indonesia', country: 'Indonesia', image: 'https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?auto=format&fit=crop&w=800&q=80', description: 'Find your zen in this tropical paradise of ancient temples, lush rice terraces, and pristine beaches.', price: 'From $1,800', duration: '8 days' },
-            { name: 'New York, USA', country: 'United States', image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62f7c7?auto=format&fit=crop&w=800&q=80', description: 'Immerse yourself in the energy of the city that never sleeps, from Broadway to Central Park.', price: 'From $2,000', duration: '5 days' },
-            { name: 'Dubai, UAE', country: 'United Arab Emirates', image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80', description: 'Experience luxury redefined in this gleaming metropolis of architectural marvels and desert adventures.', price: 'From $3,200', duration: '6 days' }
-        ];
+        // Loading screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
 
-        // --- DOM Elements ---
-        const destinationsGrid = document.getElementById('destinations-grid');
-        const navDropdown = document.getElementById('nav-dropdown');
-        const destinationSelect = document.getElementById('destination-select');
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navbar = document.getElementById('navbar');
-        const heroSearchForm = document.getElementById('hero-search-form');
-        const bookingForm = document.getElementById('booking-form');
-        const itineraryBtn = document.getElementById('itinerary-btn');
-        const itineraryModal = document.getElementById('itinerary-modal');
-        const itineraryModalContent = document.getElementById('itinerary-modal-content');
-        const itineraryCloseBtn = document.getElementById('itinerary-close-btn');
-        const itineraryOutput = document.getElementById('itinerary-output');
-        
-        let observer; // IntersectionObserver for scroll animations
-
-        /**
-         * Initializes the application. This is the main entry point.
-         */
-        function initializeApp() {
-            renderDestinations();
-            populateDropdown();
-            populateDestinationSelect();
-            setupEventListeners();
-            setupScrollAnimations();
-            setupNavbarScroll();
-            setMinDate();
-        }
-
-        /**
-         * Renders destination cards to the grid. Can be filtered.
-         * @param {string} [filter=''] - A search term to filter destinations.
-         */
-        function renderDestinations(filter = '') {
-            const filteredDestinations = destinations.filter(dest => 
-                dest.name.toLowerCase().includes(filter.toLowerCase()) ||
-                dest.country.toLowerCase().includes(filter.toLowerCase())
-            );
-
-            destinationsGrid.innerHTML = filteredDestinations.map((dest, index) => `
-                <div class="destination-card fade-in" style="animation-delay: ${index * 0.1}s" onclick="selectDestination('${dest.name}')">
-                    <div class="relative overflow-hidden">
-                        <img src="${dest.image}" alt="${dest.name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/800x600/667eea/ffffff?text=Image+Not+Found';">
-                        <div class="absolute top-4 right-4 glass-morphism px-3 py-1">
-                            <span class="text-sm font-medium text-gray-800">${dest.duration}</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-2xl font-semibold text-gray-900">${dest.name}</h3>
-                            <span class="text-blue-600 font-semibold">${dest.price}</span>
-                        </div>
-                        <p class="text-gray-600 mb-4 leading-relaxed">${dest.description}</p>
-                        <button class="btn-primary w-full">
-                            Explore Now
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-
-            if(observer) {
-                observeElements();
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.documentElement.classList.toggle('dark');
+            
+            // Save preference to localStorage
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
             }
+        });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
 
-        function populateDropdown() {
-            navDropdown.innerHTML = destinations.map(dest => `<a href="#destinations" onclick="scrollToDestination('${dest.name}')">${dest.name}</a>`).join('');
-        }
-
-        function populateDestinationSelect() {
-            destinationSelect.innerHTML = '<option value="" disabled selected>Choose your destination</option>' + destinations.map(dest => `<option value="${dest.name}">${dest.name}</option>`).join('');
-        }
-
-        function setMinDate() {
-            const today = new Date();
-            today.setDate(today.getDate() + 1); // Start from tomorrow
-            document.getElementById('travel-date').min = today.toISOString().split('T')[0];
-        }
-
-        function selectDestination(destinationName) {
-            destinationSelect.value = destinationName;
-            itineraryBtn.disabled = false;
-            document.getElementById('booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
-            const bookingSection = document.getElementById('booking').querySelector('.glass-morphism-dark');
-            bookingSection.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
-            bookingSection.style.transform = 'scale(1.02)';
-            bookingSection.style.boxShadow = '0 0 30px rgba(0, 122, 255, 0.5)';
-            setTimeout(() => {
-                bookingSection.style.transform = 'scale(1)';
-                bookingSection.style.boxShadow = 'var(--shadow-large)';
-            }, 500);
-        }
-
-        function scrollToDestination(destinationName) {
-            const destinationCards = document.querySelectorAll('.destination-card');
-            destinationCards.forEach(card => {
-                if (card.querySelector('h3').textContent === destinationName) {
-                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    card.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)';
-                    card.style.transform = 'translateY(-8px) scale(1.05)';
-                    card.style.boxShadow = '0 25px 50px -12px rgba(0, 122, 255, 0.3)';
-                    setTimeout(() => {
-                        card.style.transform = '';
-                        card.style.boxShadow = '';
-                    }, 2000);
-                }
-            });
-        }
+        // Flight routes dropdown
+        const flightsMenu = document.getElementById('flightsMenu');
+        const dropdownBackdrop = document.getElementById('dropdownBackdrop');
         
-        function setupEventListeners() {
-            mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-            heroSearchForm.addEventListener('submit', handleHeroSearch);
-            document.getElementById('hero-search-input').addEventListener('input', (e) => renderDestinations(e.target.value));
-            bookingForm.addEventListener('submit', handleBookingSubmit);
-            itineraryBtn.addEventListener('click', handleGenerateItinerary);
-            itineraryCloseBtn.addEventListener('click', closeItineraryModal);
-            itineraryModal.addEventListener('click', (e) => { if(e.target === itineraryModal) closeItineraryModal()});
+        flightsMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdownBackdrop.classList.toggle('active');
+        });
+        
+        dropdownBackdrop.addEventListener('click', function() {
+            this.classList.remove('active');
+        });
 
-            destinationSelect.addEventListener('change', (e) => {
-                itineraryBtn.disabled = !e.target.value;
-            });
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            dropdownBackdrop.classList.remove('active');
+        });
 
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const href = this.getAttribute('href');
-                    if(href !== "#destinations" || !this.closest('.dropdown')) e.preventDefault();
-                    const targetElement = document.querySelector(href);
-                    if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
-                    if (!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
-                });
-            });
+        // Fill flight route
+        function fillFlightRoute(from, to) {
+            document.getElementById('from').value = from;
+            document.getElementById('to').value = to;
+            dropdownBackdrop.classList.remove('active');
         }
 
-        function handleHeroSearch(event) {
-            event.preventDefault();
-            const searchTerm = document.getElementById('hero-search-input').value;
-            const searchBtnText = document.getElementById('search-btn-text');
-            const searchLoading = document.getElementById('search-loading');
-            searchBtnText.classList.add('hidden');
-            searchLoading.classList.remove('hidden');
-            setTimeout(() => {
-                renderDestinations(searchTerm);
-                document.getElementById('destinations').scrollIntoView({ behavior: 'smooth' });
-                searchBtnText.classList.remove('hidden');
-                searchLoading.classList.add('hidden');
-            }, 800);
-        }
-
-        async function handleGenerateItinerary() {
-            const destination = destinationSelect.value;
-            if (!destination) {
-                alert("Please select a destination first.");
-                return;
-            }
-
-            const travelers = document.getElementById('travelers').value;
-            const travelDate = document.getElementById('travel-date').value;
-            const requests = document.getElementById('special-requests').value;
-            const duration = destinations.find(d => d.name === destination)?.duration || 'a week';
-            
-            const btnText = document.getElementById('itinerary-btn-text');
-            const loading = document.getElementById('itinerary-loading');
-
-            btnText.classList.add('hidden');
-            loading.classList.remove('hidden');
-            itineraryBtn.disabled = true;
-
-            const prompt = `Create a travel itinerary for a trip to ${destination}.
-- The trip is for ${duration}.
-- Number of travelers: ${travelers || 1}.
-- Start date: ${travelDate || 'an upcoming date'}.
-- Special requests or interests from the user: "${requests || 'none'}".
-- For each day, provide a title, and a schedule for morning, afternoon, and evening with creative and practical suggestions for activities and dining.
-- Make the suggestions interesting and specific to the location.
-`;
-
-            const payload = {
-                contents: [{ role: "user", parts: [{ text: prompt }] }],
-                generationConfig: {
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: "OBJECT",
-                        properties: {
-                            "itinerary": {
-                                "type": "ARRAY",
-                                "items": {
-                                    "type": "OBJECT",
-                                    "properties": {
-                                        "day": { "type": "NUMBER" },
-                                        "title": { "type": "STRING" },
-                                        "morning": { "type": "STRING", "description": "Description of the morning activity." },
-                                        "afternoon": { "type": "STRING", "description": "Description of the afternoon activity." },
-                                        "evening": { "type": "STRING", "description": "Description of the evening activity." }
-                                    },
-                                    required: ["day", "title", "morning", "afternoon", "evening"]
-                                }
-                            }
-                        },
-                        required: ["itinerary"]
-                    }
-                }
-            };
-            
-            try {
-                const apiKey = ""; // Left empty as per instructions
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`API request failed with status ${response.status}`);
-                }
+        // Simulate globe interactions
+        const globe = document.querySelector('.globe-container');
+        const tooltip = document.getElementById('countryTooltip');
+        
+        if (globe) {
+            globe.addEventListener('mousemove', function(e) {
+                const rect = globe.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
                 
-                const result = await response.json();
+                // Simulate different country tooltips
+                const countries = [
+                    { name: "France", top: "30%", left: "50%" },
+                    { name: "Japan", top: "40%", left: "80%" },
+                    { name: "USA", top: "45%", left: "25%" },
+                    { name: "Australia", top: "70%", left: "75%" },
+                    { name: "Brazil", top: "60%", left: "35%" }
+                ];
                 
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const jsonText = result.candidates[0].content.parts[0].text;
-                    const data = JSON.parse(jsonText);
-                    renderItinerary(data.itinerary);
-                } else {
-                    console.error("Unexpected API response structure:", result);
-                    renderItineraryError("Sorry, the AI couldn't generate an itinerary right now. Please try again later.");
-                }
-            } catch (error) {
-                console.error("Error generating itinerary:", error);
-                renderItineraryError(`There was an error generating your itinerary. Please check the console for details.`);
-            } finally {
-                btnText.classList.remove('hidden');
-                loading.classList.add('hidden');
-                itineraryBtn.disabled = false;
-            }
-        }
-
-        function renderItinerary(itineraryData) {
-            itineraryOutput.innerHTML = ''; // Clear previous content
-            if (!itineraryData || itineraryData.length === 0) {
-                renderItineraryError("No itinerary data was returned.");
-                return;
-            }
-            itineraryData.forEach(day => {
-                const dayElement = document.createElement('div');
-                dayElement.className = 'mb-8 last:mb-0';
-                dayElement.innerHTML = `
-                    <div class="flex items-center mb-4">
-                        <div class="bg-blue-100 text-blue-600 font-bold rounded-full w-12 h-12 flex items-center justify-center text-xl mr-4 flex-shrink-0">${day.day}</div>
-                        <h3 class="text-xl font-bold text-gray-800">${day.title || `Day ${day.day}`}</h3>
-                    </div>
-                    <div class="pl-16 border-l-2 border-blue-100 ml-6 space-y-4">
-                        <div class="relative">
-                            <div class="absolute -left-[33px] top-1 w-4 h-4 bg-white border-2 border-blue-500 rounded-full"></div>
-                            <p><strong>Morning:</strong> ${day.morning}</p>
-                        </div>
-                        <div class="relative">
-                            <div class="absolute -left-[33px] top-1 w-4 h-4 bg-white border-2 border-blue-500 rounded-full"></div>
-                            <p><strong>Afternoon:</strong> ${day.afternoon}</p>
-                        </div>
-                        <div class="relative">
-                           <div class="absolute -left-[33px] top-1 w-4 h-4 bg-white border-2 border-blue-500 rounded-full"></div>
-                            <p><strong>Evening:</strong> ${day.evening}</p>
-                        </div>
-                    </div>
-                `;
-                itineraryOutput.appendChild(dayElement);
-            });
-            openItineraryModal();
-        }
-
-        function renderItineraryError(message) {
-            itineraryOutput.innerHTML = `<div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md" role="alert"><p>${message}</p></div>`;
-            openItineraryModal();
-        }
-
-        function openItineraryModal() {
-            document.body.classList.add('modal-open');
-            itineraryModal.classList.remove('hidden');
-            setTimeout(() => {
-                itineraryModal.classList.remove('opacity-0');
-                itineraryModalContent.classList.remove('scale-95');
-            }, 10);
-        }
-        
-        function closeItineraryModal() {
-            document.body.classList.remove('modal-open');
-            itineraryModal.classList.add('opacity-0');
-            itineraryModalContent.classList.add('scale-95');
-            setTimeout(() => {
-                itineraryModal.classList.add('hidden');
-            }, 300);
-        }
-
-
-        function handleBookingSubmit(event) {
-            event.preventDefault();
-            const btnText = document.getElementById('booking-btn-text');
-            const loading = document.getElementById('booking-loading');
-            const messageEl = document.getElementById('booking-message');
-            btnText.classList.add('hidden');
-            loading.classList.remove('hidden');
-            messageEl.classList.add('hidden');
-            setTimeout(() => {
-                btnText.classList.remove('hidden');
-                loading.classList.add('hidden');
-                messageEl.innerHTML = `<div class="success-message"><p class="font-bold">Booking Confirmed!</p><p>Thank you for choosing Travel-Ease. A confirmation has been sent to your email.</p></div>`;
-                messageEl.classList.remove('hidden');
-                bookingForm.reset();
-                setMinDate();
-                itineraryBtn.disabled = true;
-                setTimeout(() => messageEl.classList.add('hidden'), 6000);
-            }, 2000);
-        }
-
-        function setupScrollAnimations() {
-            const options = { root: null, rootMargin: '0px', threshold: 0.1 };
-            observer = new IntersectionObserver((entries, observerInstance) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observerInstance.unobserve(entry.target);
+                let showTooltip = false;
+                
+                countries.forEach(country => {
+                    const countryX = parseInt(country.left) / 100 * rect.width;
+                    const countryY = parseInt(country.top) / 100 * rect.height;
+                    
+                    const distance = Math.sqrt(Math.pow(x - countryX, 2) + Math.pow(y - countryY, 2));
+                    
+                    if (distance < 50) {
+                        tooltip.textContent = country.name;
+                        tooltip.style.top = `${countryY - 30}px`;
+                        tooltip.style.left = `${countryX - tooltip.offsetWidth / 2}px`;
+                        tooltip.style.opacity = '1';
+                        showTooltip = true;
                     }
                 });
-            }, options);
-            observeElements();
-        }
-        
-        function observeElements() {
-            const elementsToAnimate = document.querySelectorAll('.fade-in, .scale-in');
-            elementsToAnimate.forEach(el => observer.observe(el));
-        }
-
-        function setupNavbarScroll() {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) navbar.classList.add('nav-scrolled');
-                else navbar.classList.remove('nav-scrolled');
+                
+                if (!showTooltip) {
+                    tooltip.style.opacity = '0';
+                }
+            });
+            
+            globe.addEventListener('click', function(e) {
+                if (tooltip.style.opacity === '1') {
+                    alert(`You clicked on ${tooltip.textContent}! This would show travel options for ${tooltip.textContent} in a real implementation.`);
+                }
             });
         }
 
-        document.addEventListener('DOMContentLoaded', initializeApp);
+        // Scroll animations
+        const animateOnScroll = function() {
+            const elements = document.querySelectorAll('.animate-fade-in, .animate-delay-1, .animate-delay-2, .animate-delay-3');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementPosition < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Run once on page load
     </script>
 </body>
 </html>

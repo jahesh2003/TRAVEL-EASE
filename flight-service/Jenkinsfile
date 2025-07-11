@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                echo 'Code pulled from GitHub!'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('flight-service') {
+                    sh 'docker build -t flight-service-img .'
+                }
+            }
+        }
+
+        stage('Run Container (Test)') {
+            steps {
+                sh '''
+                    docker stop flight-test || true
+                    docker rm flight-test || true
+                    docker run -d -p 5001:5001 --name flight-test flight-service-img
+                '''
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                sh 'docker stop flight-test && docker rm flight-test'
+            }
+        }
+    }
+}
+

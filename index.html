@@ -768,5 +768,64 @@
         window.addEventListener('scroll', animateOnScroll);
         animateOnScroll(); // Run once on page load
     </script>
+
+<div class="mt-4 flex gap-4">
+    <button onclick="fetchFlights()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-medium transition-colors">
+        Search Flights
+    </button>
+    <button onclick="bookFlight(1, 'Jahesh')" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl text-sm font-medium transition-colors">
+        Book Flight ID 1
+    </button>
+    <button onclick="makePayment(4500)" class="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-xl text-sm font-medium transition-colors">
+        Pay ₹4500
+    </button>
+</div>
+
+
+<script>
+async function fetchFlights() {
+    try {
+        const response = await fetch("http://localhost:5001/flights");
+        const data = await response.json();
+        console.log("Available Flights:", data);
+        alert("Available flights: " + data.map(f => `${f.from} → ${f.to} @ ₹${f.price}`).join(", "));
+    } catch (error) {
+        console.error("Error fetching flights:", error);
+    }
+}
+
+async function bookFlight(flightId, user) {
+    try {
+        const response = await fetch("http://localhost:5002/book", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ flight_id: flightId, user })
+        });
+        const data = await response.json();
+        alert("Booking Response: " + data.message);
+    } catch (error) {
+        console.error("Error booking flight:", error);
+    }
+}
+
+async function makePayment(amount) {
+    try {
+        const response = await fetch("http://localhost:5003/pay", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ amount })
+        });
+        const data = await response.json();
+        alert("Payment Response: " + data.message);
+    } catch (error) {
+        console.error("Error making payment:", error);
+    }
+}
+</script>
+
 </body>
 </html>
